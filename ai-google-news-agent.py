@@ -20,10 +20,24 @@ class LiveDataAgent:
 
     def google_search(self, query, num_results=5):
         url = f"https://www.googleapis.com/customsearch/v1?q={query}&key={self.google_api_key}&cx={self.google_cx}&num={num_results}"
-        print(url)
         response = requests.get(url)
+        # print(response.text)
         if response.status_code == 200:
-            return response.json().get("items", [])
+            for item in response.json().get('items', []):
+                search_items = []
+                for item in response.json().get('items', []):
+                    search_items.append([item['title'], item['link'], item['htmlSnippet']])
+            # search_item = [item['title'] for item in response.json().get('items', [])]
+
+            #format the search items into html so that it can be displayed in the streamlit app
+            display_text = ""
+            for item in search_items:
+                display_text += f"<h3><a href='{item[1]}'>{item[0]}</a></h3>"
+                display_text += f"<p>{item[2]}</p>"
+            st.write(display_text, unsafe_allow_html=True)
+
+            return ""
+            # return response.json().get('items', [])
         else:
             return {"error": f"Failed to fetch data: {response.status_code}"}
 
