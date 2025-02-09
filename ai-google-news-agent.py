@@ -3,13 +3,19 @@ import requests
 import json
 import openai
 import streamlit as st
+import os
 
+
+st.write("DB username:", st.secrets["google_api_key"])
+st.write("DB password:", st.secrets["google_cx"])
+
+st.write(
+    "Has environment variables been set:",
+    os.environ["db_username"] == st.secrets["news_api_key"], st.secrets['llama_endpoint']
+)
 
 # Load environment variables
 load_dotenv()
-GOOGLE_API_KEY='AIzaSyAf83nRkbTkH7kvjtEwdmHGWskxD8RHQq0'
-GOOGLE_CX='8470d3ed300cf4a11'
-NEWS_API_KEY='e5b5c7db95c340c081b725f187c54b84'
 
 class LiveDataAgent:
     def __init__(self, google_api_key, google_cx, news_api_key, llama_endpoint):
