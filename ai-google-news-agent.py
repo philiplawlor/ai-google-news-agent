@@ -6,13 +6,13 @@ import streamlit as st
 import os
 
 
-st.write("DB username:", st.secrets["google_api_key"])
-st.write("DB password:", st.secrets["google_cx"])
+# st.write("DB username:", st.secrets["GOOGLE_API_KEY"])
+# st.write("DB password:", st.secrets["GOOGLE_CX"])
 
-st.write(
-    "Has environment variables been set:",
-    os.environ["db_username"] == st.secrets["news_api_key"], st.secrets['llama_endpoint']
-)
+# st.write(
+#     "Has environment variables been set:",
+#     os.environ["db_username"] == st.secrets["news_api_key"], st.secrets['llama_endpoint']
+# )
 
 # Load environment variables
 load_dotenv()
@@ -69,16 +69,16 @@ st.title("Live Data Agent")
 query = st.text_input("Enter your query:")
 
 if st.button("Search Google"):
-    agent = LiveDataAgent(google_api_key="AIzaSyAf83nRkbTkH7kvjtEwdmHGWskxD8RHQq0", google_cx="8470d3ed300cf4a11", news_api_key="e5b5c7db95c340c081b725f187c54b84", llama_endpoint="http://localhost:3000/generate")
+    agent = LiveDataAgent(google_api_key=st.secrets["GOOGLE_API_KEY"], google_cx=st.secrets["GOOGLE_CX"], news_api_key=st.secrets["NEWS_API_KEY"], llama_endpoint="http://localhost:3000/generate")
     results = agent.google_search(query)
     st.write(results)
 
 if st.button("Search News"):
-    agent = LiveDataAgent(google_api_key="AIzaSyAf83nRkbTkH7kvjtEwdmHGWskxD8RHQq0", google_cx="8470d3ed300cf4a11", news_api_key="e5b5c7db95c340c081b725f187c54b84", llama_endpoint="http://localhost:3000/generate")
+    agent = LiveDataAgent(google_api_key=st.secrets["GOOGLE_API_KEY"], google_cx=st.secrets["GOOGLE_CX"], news_api_key=st.secrets["NEWS_API_KEY"], llama_endpoint="http://localhost:3000/generate")
     results = agent.news_search(query)
     st.write(results)
 
 if st.button("Query LLaMA"):
-    agent = LiveDataAgent(google_api_key="AIzaSyAf83nRkbTkH7kvjtEwdmHGWskxD8RHQq0", google_cx="8470d3ed300cf4a11", news_api_key="e5b5c7db95c340c081b725f187c54b84", llama_endpoint="http://localhost:3000/generate")
+    agent = LiveDataAgent(google_api_key=st.secrets["GOOGLE_API_KEY"], google_cx=st.secrets["GOOGLE_CX"], news_api_key=st.secrets["NEWS_API_KEY"], llama_endpoint="http://localhost:3000/generate")
     results = agent.query_llama(query)
     st.write(results)
