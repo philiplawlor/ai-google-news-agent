@@ -1,4 +1,4 @@
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import requests
 import json
 import openai
@@ -16,6 +16,7 @@ class LiveDataAgent:
         self.google_cx = google_cx
         self.news_api_key = news_api_key
         self.llama_endpoint = llama_endpoint
+        self.local_llama_api_key = st.secrets["LLAMA_API_KEY"]
 
     def google_search(self, query, num_results=5):
         url = f"https://www.googleapis.com/customsearch/v1?q={query}&key={self.google_api_key}&cx={self.google_cx}&num={num_results}"
@@ -67,7 +68,7 @@ class LiveDataAgent:
             return {"error": f"Failed to fetch news: {response.status_code}"}
     
     def query_llama(self, prompt):
-        headers = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODk5ZDY1LTkxZmItNGFhNi1hNjllLWU0YjNlMTA5NmJjMCJ9.nKsR0D-78laZ6FI5JxAloVzE9uS89yPTFs9fa5pXFSg',
+        headers = {'Authorization': f"Bearer {st.secrets['LLAMA_API_KEY']}",
                     'Content-Type': 'application/json'}
         # data = json.dumps({"prompt": prompt, "max_tokens": 100})
         payload = json.dumps({
